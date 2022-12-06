@@ -72,6 +72,12 @@ function UseReducer({ name }) {
 
     const [state, dispatch] = React.useReducer(reducer, initialState);
 
+    const onError = () => dispatch({ type: actionTypes.error });
+    const onConfirm = () => dispatch({ type: actionTypes.confirm });
+    const onReset = () => dispatch({ type: actionTypes.reset });
+    const onCheck = () => dispatch({ type: actionTypes.check });
+    const onDelete = () => dispatch({ type: actionTypes.delete });
+
     React.useEffect(() => {
 
         console.log("Start effect");
@@ -81,9 +87,9 @@ function UseReducer({ name }) {
                 console.log("validate");
 
                 if (state.value === SECURITY_CODE) {
-                    dispatch({ type: actionTypes.confirm })
+                    onConfirm();
                 } else {
-                    dispatch({ type: actionTypes.error })
+                    onError();
                 }
 
             }, 3000);
@@ -113,12 +119,7 @@ function UseReducer({ name }) {
                         dispatch({ type: actionTypes.write, payload: event.target.value })
                     }}
                 />
-                <button
-                    onClick={() => {
-                        dispatch({ type: actionTypes.check })
-                    }}
-                >Comprobar
-                </button>
+                <button onClick={onCheck}>Comprobar</button>
             </div >
         );
     }
@@ -127,18 +128,8 @@ function UseReducer({ name }) {
             <React.Fragment>
                 <p>Estas seguro de querer eliminar?</p>
 
-                <button
-                    onClick={() => {
-                        dispatch({ type: actionTypes.delete })
-                    }}
-                >Si, eliminar
-                </button>
-                <button
-                    onClick={() => {
-                        dispatch({ type: actionTypes.reset })
-                    }}
-                >No, me arrepenti
-                </button>
+                <button onClick={onDelete}>Si, eliminar</button>
+                <button onClick={onReset}>No, me arrepenti</button>
             </React.Fragment>
         );
     } else {
@@ -146,12 +137,7 @@ function UseReducer({ name }) {
             <React.Fragment>
                 <p>Eliminado con exito</p>
 
-                <button
-                    onClick={() => {
-                        dispatch({ type: actionTypes.reset })
-                    }}
-                >Resetear, volver atras
-                </button>
+                <button onClick={onReset}>Resetear, volver atras</button>
             </React.Fragment>
         );
     }
